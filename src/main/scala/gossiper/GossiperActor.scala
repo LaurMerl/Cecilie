@@ -11,7 +11,8 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class GossiperActor(domains:List[Link],maxDepth:DepthType) extends Actor with ActorLogging {
   val spiders = context.actorOf(SpiderActor.props())
-
+  println(context.self.path)
+  //  context.actorSelection("/user/myActorName/").resolveOne()
   override def receive: Receive = {
     case LinkMessage(link,depth) if messageValidator(link) && maxDepth < depth  => GoForIt(link,depth)
     case LinkMessage(link,depth) if messageValidator(link) && maxDepth >= depth => println(s"Max depth reach")
@@ -27,6 +28,7 @@ class GossiperActor(domains:List[Link],maxDepth:DepthType) extends Actor with Ac
   }
 
   def GoForIt(link: Link,depth:DepthType): Unit ={
+    println(s"crawlero $link")
     spiders ! HauntingLinkMessage((link,depth))
   }
 }
