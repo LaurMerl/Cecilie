@@ -3,6 +3,7 @@ import java.net.{URI, URL}
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
+import configuration.ConfigurationManager
 import gossiper.GossiperActor
 import info.folone.scala.poi.StringCell
 import info.folone.scala.poi.impure.load
@@ -17,13 +18,13 @@ object Main {
   implicit val materializer = ActorMaterializer()
   implicit val executionContext = system.dispatcher
   val gossiper = system.actorOf(
-    GossiperActor.props(ConfigFactory.load().getStringList("crawler.urls").toList.map(x => new Link(x)),
+    GossiperActor.props(ConfigurationManager.links.toList,
       ConfigFactory.load().getInt("crawler.deepness")
     ), "gossiper")
 
   def main(args: Array[String]): Unit = {
 
-    ConfigFactory.load().getStringList("crawler.urls").toList.map(x => new Link(x)).foreach(s => {
+    ConfigurationManager.links.toList.foreach(s => {
       gossiper ! LinkMessage(s, 1)
     })
 

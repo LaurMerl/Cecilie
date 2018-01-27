@@ -1,9 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/project/src/main/scala/juicer/JuicerActor.scala:65:13: match may not be exhaustive.[0m
-[0m[[0m[33mwarn[0m] [0m[0mIt would fail on the following inputs: BooleanCell(_, _), FormulaCell(), NumericCell(_, _), StyledCell()[0m
-[0m[[0m[33mwarn[0m] [0m[0m        .map{case StringCell(z,d)=>z->d}.toMap[0m
-[0m[[0m[33mwarn[0m] [0m[0m            ^[0m
-[0m[[0m[33mwarn[0m] [0m[0m/project/src/main/scala/juicer/JuicerActor.scala:87:13: match may not be exhaustive.[0m
-[0m[[0m[33mwarn[0m] [0m[0mIt would fail on the following inputs: BooleanCell(_, _), FormulaCell(), NumericCell(_, _), StyledCell()[0m
-[0m[[0m[33mwarn[0m] [0m[0m        .map{case StringCell(_,s)=>new URL(s)}[0m
-[0m[[0m[33mwarn[0m] [0m[0m            ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m

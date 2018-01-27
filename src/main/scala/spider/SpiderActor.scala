@@ -15,14 +15,10 @@ import org.openqa.selenium.remote.DesiredCapabilities
 class SpiderActor  extends Actor with ActorLogging  {
   private val juicer: ActorRef = context.actorOf(JuicerActor.props())
 
-
-
-
   override def receive: Receive = {
     case HauntingLinkMessage(linkInfo @ (link,_)) => {
-      val sCaps = new DesiredCapabilities();
-      sCaps.setJavascriptEnabled(true);
-
+      val sCaps = new DesiredCapabilities()
+      sCaps.setJavascriptEnabled(true)
       import org.openqa.selenium.phantomjs.PhantomJSDriverService
       sCaps.setCapability("takesScreenshot", false)
       sCaps.setCapability(PhantomJSDriverService.PHANTOMJS_PAGE_SETTINGS_PREFIX + "userAgent", "My User Agent - Chrome")

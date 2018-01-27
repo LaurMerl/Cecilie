@@ -23,7 +23,7 @@ class GossiperActor(domains:List[Link],maxDepth:DepthType) extends Actor with Ac
   //TODO: Check if the link its already visited
   //
   def messageValidator(link:Link):Boolean = {
-    true
+    domains.map(_.getHost).contains(link.getHost)
   }
 
   def GoForIt(link: Link,depth:DepthType): Unit ={

@@ -10,8 +10,6 @@ libraryDependencies += "com.typesafe.akka" %% "akka-http" % "10.0.11"
 libraryDependencies += "com.typesafe.akka" %% "akka-http-spray-json" % "10.1.0-RC1"
 libraryDependencies += "io.spray" %%  "spray-json" % "1.3.3"
 
-libraryDependencies +="org.seleniumhq.webdriver" % "webdriver-selenium" % "0.9.7376"
-libraryDependencies += "org.seleniumhq.webdriver" % "webdriver-htmlunit" % "0.9.7376"
 
 
 libraryDependencies += "info.folone" %% "poi-scala" % "0.18"
