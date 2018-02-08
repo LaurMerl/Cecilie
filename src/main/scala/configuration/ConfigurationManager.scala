@@ -21,7 +21,7 @@ object ConfigurationManager {
         .cells
         .map{case StringCell(z,d)=>z->d}.toMap
 
-      val elements = rowOrdered.tail.map{_.cells.map{
+      val elements = rowOrdered.tail.filter(_.cells.size>0).map{_.cells.map{
         case StringCell(headId,d) if headId == 0 => (headers(headId),new URI(d).getHost)
         case StringCell(headId,d) => (headers(headId),d)
       }}
@@ -39,7 +39,7 @@ object ConfigurationManager {
 
     val req = wb.sheets.flatMap( x => {
       val rowOrdered = x.rows.toSeq.sortBy(_.index)
-      rowOrdered.tail
+      rowOrdered.filter(_.cells.size>0).tail
         .map(p=>p.cells.find(_.index == 0 ).get)
         .map{case StringCell(_,s)=>new URL(s)}
     })
@@ -52,4 +52,5 @@ object ConfigurationManager {
   lazy val domainInformation:Map[Domain,Seq[(DataMining,XPath)]] =info._1
   lazy val links:Set[Link] =info._2
 
+  val proxyPort = 5566
 }

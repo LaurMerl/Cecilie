@@ -2,7 +2,8 @@ package types
 
 import java.net.URL
 
-import org.openqa.selenium.{WebDriver}
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.phantomjs.PhantomJSDriver
 
 
 object DefaultType {
@@ -11,8 +12,9 @@ object DefaultType {
   type Domain = String
   type DataMining = String
   type XPath = String
+  type TLog = String
 
   type LinkSpec = (Link,DepthType)
-  type Page =  WebDriver
+  type Page =  PhantomJSDriver
 
 }

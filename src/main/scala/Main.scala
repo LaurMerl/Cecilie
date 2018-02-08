@@ -19,7 +19,7 @@ object Main {
   implicit val executionContext = system.dispatcher
   val gossiper = system.actorOf(
     GossiperActor.props(ConfigurationManager.links.toList,
-      ConfigFactory.load().getInt("crawler.deepness")
+      10
     ), "gossiper")
 
   def main(args: Array[String]): Unit = {
