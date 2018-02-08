@@ -7,7 +7,7 @@ import info.folone.scala.poi.impure.load
 import types.DefaultType.{DataMining, Domain, Link, XPath}
 
 object ConfigurationManager {
-  val path = "./config.xls"
+  val path = "/app/stuff/config.xls"
 
   private def getConfigTable(path:String):(Map[Domain,Seq[(DataMining,XPath)]],Set[Link]) = {
     val wb = load(path)

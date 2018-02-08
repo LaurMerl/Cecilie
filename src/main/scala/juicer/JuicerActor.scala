@@ -8,6 +8,8 @@ import akka.actor.{Actor, ActorLogging, Props}
 import configuration.ConfigurationManager
 import messages.{LinkMessage, SqueezeLinkMessage}
 import org.openqa.selenium.By
+import saver.SaverActor
+import saver.SaverActor.SaveJob
 import types.DefaultType._
 
 import scala.concurrent.duration._
@@ -15,6 +17,7 @@ import scala.io.Source
 
 class JuicerActor(mapping:Map[Domain,Seq[(DataMining,XPath)]]) extends Actor with ActorLogging  {
   val gossiperActor = context.actorSelection("akka://default/user/gossiper").resolveOne(60 seconds)
+  val saverActor = context.actorOf(SaverActor.props)
   implicit val executionContext = context.dispatcher
     override def receive: Receive = {
       case SqueezeLinkMessage(linkInfo,page) => {
@@ -32,28 +35,23 @@ class JuicerActor(mapping:Map[Domain,Seq[(DataMining,XPath)]]) extends Actor wit
 
          page.findElements(By.tagName("a"))
                        .map(a=> a.getAttribute("href"))
-          .foreach{
+                       .foreach{
             link => {
               gossiperActor.map(x => x ! LinkMessage(new URL(link), linkInfo._2 + 1))
             }
           }
 
-        val s1:Seq[String]= info.filter(_._2.isDefined).map{
+        val s1:Seq[(String,String)]= info.filter(_._2.isDefined).map{
           x=>
             x._2 match {
-              case Some(a) => a
-              case None => ""
+              case Some(a) => (x._1,a)
+              case None => (x._1,"")
             }
         }
+        if (s1.exists { case (x, y) => y.nonEmpty })
+             saverActor ! SaveJob(s1)
 
-        if(s1.nonEmpty) {
-          val r = s1.map("\""+_+"\"").reduce((x,y)=>s"$x , $y")
-          println()
-          val file = new File("./bo.csv")
-          val bw = new BufferedWriter(new FileWriter(file, true))
-          bw.write(s"${r} \n")
-          bw.close()
-        }
+        page.close()
       }
     }
   }
