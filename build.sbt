@@ -27,10 +27,20 @@ enablePlugins(sbtdocker.DockerPlugin)
 dockerfile in docker := {
   val artifact: File = assembly.value
   val artifactTargetPath = s"/app/${artifact.name}"
-
   new Dockerfile {
     from("openjdk:alpine")
     add(artifact, artifactTargetPath)
     entryPoint("java", "-jar", artifactTargetPath)
   }
 }
+imageNames in docker := Seq(
+  // Sets the latest tag
+  ImageName(s"bedux/cecilie:latest"),
+
+  // Sets a name with a tag that contains the project version
+  ImageName(
+    namespace = Some("bedux"),
+    repository = "cecilie",
+    tag = Some("v" + version.value)
+  )
+)

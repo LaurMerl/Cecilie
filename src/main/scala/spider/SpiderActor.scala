@@ -2,6 +2,7 @@ package spider
 
 
 import java.io.File
+import java.net.URL
 import java.util.Properties
 import java.util.logging.Level
 
@@ -10,7 +11,7 @@ import configuration.ConfigurationManager
 import juicer.JuicerActor
 import messages.{HauntingLinkMessage, SqueezeLinkMessage}
 import org.openqa.selenium.phantomjs.PhantomJSDriver
-import org.openqa.selenium.remote.DesiredCapabilities
+import org.openqa.selenium.remote.{DesiredCapabilities, RemoteWebDriver}
 import org.openqa.selenium.phantomjs.PhantomJSDriverService
 
 
@@ -32,8 +33,7 @@ class SpiderActor  extends Actor with ActorLogging  {
 
   override def receive: Receive = {
     case HauntingLinkMessage(linkInfo @ (link,_)) => {
-      val driver:PhantomJSDriver =  new  PhantomJSDriver(sCaps)
-      driver.setLogLevel(Level.OFF)
+      val driver =new  RemoteWebDriver( new URL("http://phantomjs:8910"),sCaps)
       driver.get(link.toString)
       juicer ! SqueezeLinkMessage(linkInfo,driver)
     }

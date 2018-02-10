@@ -8,7 +8,7 @@ class SaverActor extends Actor with ActorLogging   {
   // To directly connect to the default server localhost on port 27017
 
   // Use a Connection String
-  val mongoClient: MongoClient = MongoClient("mongodb://mongo:27017")
+  val mongoClient: MongoClient = MongoClient("mongodb://mongodb:27017")
   val database: MongoDatabase = mongoClient.getDatabase("cecilie")
   val collection: MongoCollection[Document] = database.getCollection("jobs")
 
